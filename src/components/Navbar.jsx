@@ -1,38 +1,87 @@
-import React, { useState } from "react";
+import React from "react";
 
-const TopNavbar = () => {
-  const [activeNav, setActiveNav] = useState("Home");
+const Navbar = ({ activeNav, setActiveNav }) => {
   const navItems = ["Home", "About", "Project", "Contact"];
 
-  const [title, setTitle] = useState("Next Portofolio");
+  const getThemeStyles = (nav) => {
+    if (nav === "Home") {
+      return {
+        headerBg: "bg-white/80",
+        borderColor: "border-slate-200",
+        titleColor: "text-slate-800",
+        accentDot: "bg-sky-500",
+        activeBtn: "text-sky-700 bg-sky-50",
+      };
+    }
+    if (nav === "About") {
+      return {
+        headerBg: "bg-emerald-50/70",
+        borderColor: "border-emerald-200",
+        titleColor: "text-emerald-900",
+        accentDot: "bg-emerald-500",
+        activeBtn: "text-emerald-800 bg-emerald-200/80",
+      };
+    }
+    if (nav === "Project") {
+      return {
+        headerBg: "bg-indigo-50/70",
+        borderColor: "border-indigo-200",
+        titleColor: "text-indigo-900",
+        accentDot: "bg-indigo-500",
+        activeBtn: "text-indigo-800 bg-indigo-200/80",
+      };
+    }
+    if (nav === "Contact") {
+      return {
+        headerBg: "bg-rose-50/70",
+        borderColor: "border-rose-200",
+        titleColor: "text-rose-900",
+        accentDot: "bg-rose-500",
+        activeBtn: "text-rose-800 bg-rose-200/80",
+      };
+    }
+
+    return {
+      headerBg: "bg-white/80",
+      borderColor: "border-slate-200",
+      titleColor: "text-slate-800",
+      accentDot: "bg-sky-500",
+      activeBtn: "text-sky-700 bg-sky-50",
+    };
+  };
+
+  const theme = getThemeStyles(activeNav);
+
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/80 border-b border-slate-100 shadow-sm transition-all">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <header
+      className={`sticky top-0 z-50 w-full backdrop-blur-md border-b shadow-md transition-all duration-500 ${theme.headerBg} ${theme.borderColor}`}
+    >
+      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-lg font-semibold tracking-tight text-slate-800">
-            {title}
-            <span className="text-indigo-500">.</span>
+          <div
+            className={`w-2.5 h-2.5 rounded-full transition-colors duration-500 ${theme.accentDot}`}
+          />
+          <span
+            className={`text-lg font-bold tracking-tight transition-colors duration-500 ${theme.titleColor}`}
+          >
+            {activeNav}
           </span>
         </div>
 
-        <nav className="flex items-center gap-1 sm:gap-2">
+        <nav className="flex items-center gap-1">
           {navItems.map((item) => {
             const isActive = activeNav === item;
             return (
               <button
                 key={item}
                 onClick={() => setActiveNav(item)}
-                className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ease-in-out ${
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-300 ${
                   isActive
-                    ? "text-indigo-600 bg-indigo-50/80 shadow-xs"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
+                    ? `${theme.activeBtn} font-semibold shadow-sm`
+                    : "text-slate-600 hover:text-slate-900 hover:bg-black/5"
                 }`}
               >
                 {item}
-
-                {isActive && (
-                  <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-indigo-500 rounded-full" />
-                )}
               </button>
             );
           })}
@@ -42,4 +91,4 @@ const TopNavbar = () => {
   );
 };
 
-export default TopNavbar;
+export default Navbar;
